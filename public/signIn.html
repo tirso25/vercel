@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="./css/signIn.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Sign In</title>
+</head>
+
+<body>
+    <fieldset>
+        <div id="rules">
+            <p id="email_rule"><b>Email</b>: Correct formatting</p>
+            <p id="username_rule"><b>Username</b>: Not empty, at least 4 characters</p>
+            <p id="pwd_rule"><b>Password</b>: At least 5 characters, one uppercase letter, one lowercase letter, one digit, one special character</p>
+            <p id="repeatpwd_rule"><b>Repeat password</b>: The same that the first password</p>
+        </div>
+    </fieldset>
+    <br>
+    <fieldset id="signIn">
+        <form onsubmit="event.preventDefault();">
+            <div id="content1">
+                <label for="signIn_email">Email</label>
+                <input type="email" id="signIn_email" name="email" placeholder="email@gmail.com/es" required>
+
+                <label for="signIn_user_name">Username</label>
+                <input type="text" id="signIn_user_name" name="username" placeholder="test" required>
+
+                <label for="signIn_password">Password</label>
+                <div class="input-container">
+                    <input type="password" id="signIn_password" name="password" placeholder="Password (At least 5 characters)" required>
+                    <button type="button">
+                        <span class="material-symbols-outlined">visibility_off</span>
+                    </button>
+                </div>
+
+                <label for="signIn_repeat_password">Repeat password</label>
+                <div class="input-container">
+                    <input type="password" id="signIn_repeat_password" name="repeat_password" placeholder="Password (At least 5 characters)" required>
+                    <button type="button">
+                        <span class="material-symbols-outlined">visibility_off</span>
+                    </button>
+                </div>
+            </div>
+            <div id="content2">
+                <a href="/login" class="button" style="background-color: #2563eb">Login</a>
+                <button type="submit" style="background-color: red; cursor: not-allowed;" id="registro" disabled>Sign In</button>
+            </div>
+        </form>
+    </fieldset>
+</body>
+
+<script src="./js/signIn.js"></script>
+</html>

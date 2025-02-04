@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="./css/signIn.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Login</title>
+</head>
+
+<body>
+     <fieldset>
+        <div id="rules">
+            <p id="email_rule"><b>Email</b>: Correct formatting</p>
+            <p id="pwd_rule"><b>Password</b>: At least 5 characters, one uppercase letter, one lowercase letter, one digit, one special character</p>
+        </div>
+    </fieldset>
+    <br>
+    <fieldset id="signIn">
+        <form onsubmit="event.preventDefault();">
+            <div id="content1">
+                <label for="login_email">Email</label>
+                <input type="email" id="login_email"placeholder="email@gmail.com/es" required>
+
+                <label for="login_password">Password</label>
+                <div class="input-container">
+                    <input type="password" id="login_password" placeholder="Password (At least 5 characters)" required>
+                    <button type="button">
+                        <span class="material-symbols-outlined">visibility_off</span>
+                    </button>
+                </div>
+            </div>
+                <div id="content2">
+                    <button type="submit" style="background-color: red; cursor: not-allowed;" id="inicio" disabled>Login</button>
+                    <a href="/signin" class="button" style="background-color: #2563eb">Sign In</a>
+                </div>
+        </form>
+    </fieldset>
+</body>
+
+<script src="./js/login.js"></script>
+</html>
