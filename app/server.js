@@ -93,6 +93,6 @@ app.post("/users/login", async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
+/* app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-});
+}); */
