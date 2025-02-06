@@ -17,7 +17,7 @@ app.use(cors({
 }));
 
 
-app.post("/", (req, res) => {
+app.get("/", (req, res) => {
     es.sendFile(path.join(__dirname, "../public/index.html"));
 })
 
@@ -27,6 +27,10 @@ app.get("/signin", (req, res) => {
 
 app.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/login.html"));
+});
+
+app.get("/header", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/header.html"));
 });
 
 app.post("/users/signin", async (req, res) => {
@@ -49,14 +53,10 @@ app.post("/users/signin", async (req, res) => {
             await db.query(queryInsert, [email, username, passwordHash]);
             return res.status(201).json({ mensaje: "Usuario guardado correctamente" });
         } catch (err) {
-            return res.status(500).json({
-                mensaje: "Error del servidor",
-            });
+            return res.status(500).json({ mensaje: "Error del servidor" });
         }
     } catch (err) {
-        return res.status(500).json({
-            mensaje: "Error del servidor",
-        });
+        return res.status(500).json({ mensaje: "Error del servidor" });
     }
 });
 
@@ -77,6 +77,7 @@ app.post("/users/login", async (req, res) => {
         }
 
         const userPw = resultSelectUname.rows[0].password;
+        const userUsername = resultSelectUname.rows[0].username;
 
         let comparePW = bcrypt.compareSync(password, userPw);
 
@@ -84,12 +85,10 @@ app.post("/users/login", async (req, res) => {
             return res.status(400).json({ mensaje: "Usuario o contraseña incorrecta" });
         }
 
-        return res.status(200).json({ mensaje: "Inicio de sesión exitoso" });
+        return res.status(200).json({ mensaje: "Inicio de sesión exitoso", username: userUsername });
 
     } catch (err) {
-        return res.status(500).json({
-            mensaje: "Error del servidor",
-        });
+        return res.status(500).json({ mensaje: "Error del servidor" });
     }
 });
 

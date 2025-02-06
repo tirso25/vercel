@@ -60,62 +60,34 @@ function validateInput(event) {
 
     let isEmailValid = email.value.trim() !== "" && emailRegex.test(email.value.trim());
     if (target === email) {
-        if (isEmailValid) {
-            emailB.style.color = "green";
-            emailB.classList.remove("animate__animated", "animate__headShake");
-            void emailB.offsetWidth;
-            emailB.classList.add("animate__animated", "animate__pulse");
-        } else {
-            emailB.style.color = "red";
-            emailB.classList.remove("animate__animated", "animate__headShake");
-            void emailB.offsetWidth;
-            emailB.classList.add("animate__animated", "animate__headShake");
-        }
+        emailB.style.color = isEmailValid ? "green" : "red";
+        emailB.classList.remove("animate__animated", "animate__headShake");
+        void emailB.offsetWidth;
+        emailB.classList.add("animate__animated", isEmailValid ? "animate__pulse" : "animate__headShake");
     }
 
     let isUsernameValid = username.value.trim() !== "" && usernameRegex.test(username.value.trim());
     if (target === username) {
-        if (isUsernameValid) {
-            usernameB.style.color = "green";
-            usernameB.classList.remove("animate__animated", "animate__headShake");
-            void usernameB.offsetWidth;
-            usernameB.classList.add("animate__animated", "animate__pulse");
-        } else {
-            usernameB.style.color = "red";
-            usernameB.classList.remove("animate__animated", "animate__headShake");
-            void usernameB.offsetWidth;
-            usernameB.classList.add("animate__animated", "animate__headShake");
-        }
+        usernameB.style.color = isEmailValid ? "green" : "red";
+        usernameB.classList.remove("animate__animated", "animate__headShake");
+        void usernameB.offsetWidth;
+        usernameB.classList.add("animate__animated", isEmailValid ? "animate__pulse" : "animate__headShake");
     }
 
     let isPasswordValid = pwd.value.trim() !== "" && passwordRegex.test(pwd.value.trim());
     if (target === pwd) {
-        if (isPasswordValid) {
-            pwdB.style.color = "green";
-            pwdB.classList.remove("animate__animated", "animate__headShake");
-            void pwdB.offsetWidth;
-            pwdB.classList.add("animate__animated", "animate__pulse");
-        } else {
-            pwdB.style.color = "red";
-            pwdB.classList.remove("animate__animated", "animate__headShake");
-            void pwdB.offsetWidth;
-            pwdB.classList.add("animate__animated", "animate__headShake");
-        }
+        pwdB.style.color = isEmailValid ? "green" : "red";
+        pwdB.classList.remove("animate__animated", "animate__headShake");
+        void pwdB.offsetWidth;
+        pwdB.classList.add("animate__animated", isEmailValid ? "animate__pulse" : "animate__headShake");
     }
 
     let isRepeatPasswordValid = repeatpwd.value.trim() !== "" && passwordRegex.test(repeatpwd.value.trim()) && repeatpwd.value.trim() === pwd.value.trim();
     if (target === repeatpwd) {
-        if (isRepeatPasswordValid) {
-            repeatpwdB.style.color = "green";
-            repeatpwdB.classList.remove("animate__animated", "animate__headShake");
-            void repeatpwdB.offsetWidth;
-            repeatpwdB.classList.add("animate__animated", "animate__pulse");
-        } else {
-            repeatpwdB.style.color = "red";
-            repeatpwdB.classList.remove("animate__animated", "animate__headShake");
-            void repeatpwdB.offsetWidth;
-            repeatpwdB.classList.add("animate__animated", "animate__headShake");
-        }
+        repeatpwdB.style.color = isEmailValid ? "green" : "red";
+        repeatpwdB.classList.remove("animate__animated", "animate__headShake");
+        void repeatpwdB.offsetWidth;
+        repeatpwdB.classList.add("animate__animated", isEmailValid ? "animate__pulse" : "animate__headShake");
     }
 
     const allRight = isEmailValid && isUsernameValid && isPasswordValid && isRepeatPasswordValid;

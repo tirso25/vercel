@@ -54,32 +54,18 @@ function validateInput(event) {
 
     let isEmailValid = emailLogin.value.trim() !== "" && emailRegex.test(emailLogin.value.trim());
     if (target === emailLogin) {
-        if (isEmailValid) {
-            emailB.style.color = "green";
-            emailB.classList.remove("animate__animated", "animate__headShake");
-            void emailB.offsetWidth;
-            emailB.classList.add("animate__animated", "animate__pulse");
-        } else {
-            emailB.style.color = "red";
-            emailB.classList.remove("animate__animated", "animate__headShake");
-            void emailB.offsetWidth;
-            emailB.classList.add("animate__animated", "animate__headShake");
-        }
+        emailB.style.color = isEmailValid ? "green" : "red";
+        emailB.classList.remove("animate__animated", "animate__headShake");
+        void emailB.offsetWidth;
+        emailB.classList.add("animate__animated", isEmailValid ? "animate__pulse" : "animate__headShake");
     }
 
     let isPasswordValid = passwordLogin.value.trim() !== "" && passwordRegex.test(passwordLogin.value.trim());
     if (target === passwordLogin) {
-        if (isPasswordValid) {
-            pwdB.style.color = "green";
-            pwdB.classList.remove("animate__animated", "animate__headShake");
-            void pwdB.offsetWidth;
-            pwdB.classList.add("animate__animated", "animate__pulse");
-        } else {
-            pwdB.style.color = "red";
-            pwdB.classList.remove("animate__animated", "animate__headShake");
-            void pwdB.offsetWidth;
-            pwdB.classList.add("animate__animated", "animate__headShake");
-        }
+        pwdB.style.color = isEmailValid ? "green" : "red";
+        pwdB.classList.remove("animate__animated", "animate__headShake");
+        void pwdB.offsetWidth;
+        pwdB.classList.add("animate__animated", isEmailValid ? "animate__pulse" : "animate__headShake");
     }
 
     const allRight = isEmailValid && isPasswordValid;
@@ -115,6 +101,8 @@ function login() {
             return response.json();
         })
         .then((mensaje) => {
+            document.cookie = `username=${mensaje.username}; expires=; path=/`;
+
             Swal.fire({
                 title: mensaje['mensaje'],
                 icon: "success",

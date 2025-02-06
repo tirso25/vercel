@@ -4,8 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        if (!document.cookie) {
+            window.location.href = "/login";
+        }
+    </script>
 </head>
 <body>
-    INDEX
+    <div id="filters">
+        <div class="filter-group">
+            <div class="select-container">
+                <select class="smooth-select" id="lenguaje">
+                    <option selected value="0">Select a language</option>
+                    <option value="es">Español</option>
+                    <option value="en">Inglés</option>
+                    <option value="fr">Francés</option>
+                    <option value="de">Alemán</option>
+                    <option value="ru">Ruso</option>
+                    <option value="ja">Japonés</option>
+                    <option value="ca">Catalán</option>
+                </select>
+            </div>
+            <button class="filter-button" id="searchButton">
+                <i class="fa-solid fa-arrow-down-z-a"></i>
+            </button>
+            <input type="text" placeholder="Type an artist" id="artistFilter">
+            <button class="filter-button">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <div class="user-group">
+            <div class="user-container">
+                <i class="fa-solid fa-user" style="font-size: 24px;"></i>
+                <p id="username">Username</p>
+            </div>
+            <a id="logoff" href="#" class="button">Log Off</a> 
+        </div>
+    </div>
+    <br>
+    <div id="resultados"></div>
 </body>
+<script src="./js/index.js"></script>
 </html>
