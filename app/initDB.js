@@ -1,5 +1,8 @@
 const pool = require("./db");//Carga el archivo db.js para la conexión con la bd y poder comunicarnos con la bd
 
+/**
+ * Constante para crear la tabla de usuarios
+ */
 const createTables = async () => {
     try {
         await pool.query(`
