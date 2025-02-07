@@ -68,26 +68,26 @@ function validateInput(event) {
 
     let isUsernameValid = username.value.trim() !== "" && usernameRegex.test(username.value.trim());
     if (target === username) {
-        usernameB.style.color = isEmailValid ? "green" : "red";
+        usernameB.style.color = isUsernameValid ? "green" : "red";
         usernameB.classList.remove("animate__animated", "animate__headShake");
         void usernameB.offsetWidth;
-        usernameB.classList.add("animate__animated", isEmailValid ? "animate__pulse" : "animate__headShake");
+        usernameB.classList.add("animate__animated", isUsernameValid ? "animate__pulse" : "animate__headShake");
     }
 
     let isPasswordValid = pwd.value.trim() !== "" && passwordRegex.test(pwd.value.trim());
     if (target === pwd) {
-        pwdB.style.color = isEmailValid ? "green" : "red";
+        pwdB.style.color = isPasswordValid ? "green" : "red";
         pwdB.classList.remove("animate__animated", "animate__headShake");
         void pwdB.offsetWidth;
-        pwdB.classList.add("animate__animated", isEmailValid ? "animate__pulse" : "animate__headShake");
+        pwdB.classList.add("animate__animated", isPasswordValid ? "animate__pulse" : "animate__headShake");
     }
 
     let isRepeatPasswordValid = repeatpwd.value.trim() !== "" && passwordRegex.test(repeatpwd.value.trim()) && repeatpwd.value.trim() === pwd.value.trim();
     if (target === repeatpwd) {
-        repeatpwdB.style.color = isEmailValid ? "green" : "red";
+        repeatpwdB.style.color = isRepeatPasswordValid ? "green" : "red";
         repeatpwdB.classList.remove("animate__animated", "animate__headShake");
         void repeatpwdB.offsetWidth;
-        repeatpwdB.classList.add("animate__animated", isEmailValid ? "animate__pulse" : "animate__headShake");
+        repeatpwdB.classList.add("animate__animated", isRepeatPasswordValid ? "animate__pulse" : "animate__headShake");
     }
 
     const allRight = isEmailValid && isUsernameValid && isPasswordValid && isRepeatPasswordValid;

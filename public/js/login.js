@@ -62,10 +62,10 @@ function validateInput(event) {
 
     let isPasswordValid = passwordLogin.value.trim() !== "" && passwordRegex.test(passwordLogin.value.trim());
     if (target === passwordLogin) {
-        pwdB.style.color = isEmailValid ? "green" : "red";
+        pwdB.style.color = isPasswordValid ? "green" : "red";
         pwdB.classList.remove("animate__animated", "animate__headShake");
         void pwdB.offsetWidth;
-        pwdB.classList.add("animate__animated", isEmailValid ? "animate__pulse" : "animate__headShake");
+        pwdB.classList.add("animate__animated", isPasswordValid ? "animate__pulse" : "animate__headShake");
     }
 
     const allRight = isEmailValid && isPasswordValid;
