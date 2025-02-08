@@ -24,7 +24,7 @@ logoff.addEventListener("click", logOff);
 
 var egg = new Egg();
 egg.addCode("up,up,down,down,left,right,left,right,b,a", function () {
-    window.location.href = "https://www.youtube.com/watch?v=Zt_7L1eey2w&ab_channel=BestOfMemes";
+    window.location.href = "https://youtu.be/Zt_7L1eey2w";
 });
 
 // Escuchar las pulsaciones de teclas
