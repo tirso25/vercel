@@ -36,22 +36,16 @@ for (let i = 0; i < inputs.length; i++) {
 }
 
 for (let i = 0; i < seePw.length; i++) {
-    seePw[i].addEventListener("mousedown", function () {
+    seePw[i].addEventListener("click", function () {
         let passwordInput = this.closest('.input-container').getElementsByTagName('input')[0];
-        passwordInput.type = "text";
-        this.textContent = "visibility";
-    });
 
-    seePw[i].addEventListener("mouseup", function () {
-        let passwordInput = this.closest('.input-container').getElementsByTagName('input')[0];
-        passwordInput.type = "password";
-        this.textContent = "visibility_off";
-    });
-
-    seePw[i].addEventListener("mouseout", function () {
-        let passwordInput = this.closest('.input-container').getElementsByTagName('input')[0];
-        passwordInput.type = "password";
-        this.textContent = "visibility_off";
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            this.textContent = "visibility";
+        } else {
+            passwordInput.type = "password";
+            this.textContent = "visibility_off";
+        }
     });
 }
 
