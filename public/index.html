@@ -15,25 +15,30 @@
 <body>
     <div id="filters">
         <div class="filter-group">
-            <div class="select-container">
-                <select class="smooth-select" id="lenguaje">
-                    <option selected value="0">Select a language</option>
-                    <option value="es">Español</option>
-                    <option value="en">Inglés</option>
-                    <option value="fr">Francés</option>
-                    <option value="de">Alemán</option>
-                    <option value="ru">Ruso</option>
-                    <option value="ja">Japonés</option>
-                    <option value="ca">Catalán</option>
-                </select>
+            <div class="filter-subgroup">
+                <div class="select-container">
+                    <select class="smooth-select" id="lenguaje">
+                        <option selected value="0">Select a language</option>
+                        <option value="es">Español</option>
+                        <option value="en">Inglés</option>
+                        <option value="fr">Francés</option>
+                        <option value="de">Alemán</option>
+                        <option value="ru">Ruso</option>
+                        <option value="ja">Japonés</option>
+                        <option value="ca">Catalán</option>
+                    </select>
+                </div>
+                <button class="filter-button" id="searchLenguaje">
+                    <i class="fa-solid fa-arrow-down-z-a"></i>
+                </button>
             </div>
-            <button class="filter-button" id="searchButton">
-                <i class="fa-solid fa-arrow-down-z-a"></i>
-            </button>
-            <input type="text" placeholder="Type an artist" id="artistFilter">
-            <button class="filter-button">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+
+            <div class="filter-subgroup">
+                <input type="text" placeholder="Type an artist" id="artistFilter">
+                <button class="filter-button" id="searchArtist">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
         </div>
 
         <div class="user-group">

@@ -137,6 +137,12 @@ input:hover {
     gap: 10px;
 }
 
+.filter-subgroup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .user-group {
     display: flex;
     align-items: center;
@@ -176,20 +182,20 @@ p {
 
     .filter-group {
         flex-direction: column;
-        gap: 10px;
+        gap: 20px;
     }
 
-    .user-group {
-        flex-direction: column;
-        gap: 10px;
+    .filter-subgroup {
+        width: 100%;
+        justify-content: center;
     }
 
     .select-container, input {
-        width: 100%;
+        width: 60%;
     }
 
     .filter-button {
-        width: 100%;
+        width: 25%;
     }
 
     #filters::after {
@@ -200,10 +206,6 @@ p {
 @media (max-width: 480px) {
     .smooth-select, input {
         font-size: 14px;
-    }
-
-    .filter-button {
-        font-size: 20px;
     }
 
     #username {
