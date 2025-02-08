@@ -8,7 +8,9 @@ body {
     color: #ffffff;
     padding-top: 115px;
 }
-
+html{
+    scroll-behavior: smooth;
+}
 .select-container {
     position: relative;
     width: 160px;
