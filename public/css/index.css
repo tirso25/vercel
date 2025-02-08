@@ -130,6 +130,7 @@ input:hover {
     height: 2px;
     background-color: #ffffff;
 }
+
 .filter-group {
     display: flex;
     align-items: center;
@@ -162,6 +163,55 @@ a.button:hover {
     border-color: #66afe9;
 }
 
-p{
+p {
     font-size: x-large;
+}
+
+@media (max-width: 768px) {
+    #filters {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px 0;
+    }
+
+    .filter-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .user-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .select-container, input {
+        width: 100%;
+    }
+
+    .filter-button {
+        width: 100%;
+    }
+
+    #filters::after {
+        width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    .smooth-select, input {
+        font-size: 14px;
+    }
+
+    .filter-button {
+        font-size: 20px;
+    }
+
+    #username {
+        font-size: 18px;
+    }
+
+    a.button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
 }
