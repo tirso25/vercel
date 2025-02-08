@@ -11,6 +11,7 @@ const pwdB = document.getElementById("pwd_rule");
 const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|[a-zA-Z0-9.-]+\.es)$/;
 const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{5,}$/;
 
+//Añadimos estilos
 for (let i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener("focus", function () {
         this.style.border = '1px solid #5057d4';
@@ -29,6 +30,7 @@ for (let i = 0; i < inputs.length; i++) {
     });
 }
 
+//Para ver y ocultar las contraseñas
 for (let i = 0; i < seePw.length; i++) {
     seePw[i].addEventListener("click", function () {
         let passwordInput = this.closest('.input-container').getElementsByTagName('input')[0];
@@ -43,6 +45,10 @@ for (let i = 0; i < seePw.length; i++) {
     });
 }
 
+/**
+ * Validamos si el imput se ajusta a nuestra resticciones con el uso de regex, también añadimos estilos en funcion de lo ocurrido
+ * @param {*} event - para identificar el elemento del dom
+ */
 function validateInput(event) {
     const target = event.target;
 
@@ -69,6 +75,9 @@ function validateInput(event) {
     logInButton.style.cursor = allRight ? "pointer" : "not-allowed";
 }
 
+/**
+ * Para iniciar sesión, recogemos los valores de los imputs y los pasamos al back mediante fetch, en funcion de la respuesta de back iniciaremos sesión o no
+ */
 function login() {
     const data = {
         email: emailLogin.value,

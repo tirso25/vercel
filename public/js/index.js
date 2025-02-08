@@ -2,12 +2,16 @@ const username = document.getElementById("username");
 const logoff = document.getElementById("logoff");
 const artistFilter = document.getElementById("artistFilter");
 
+//Añadimos estilos
 artistFilter.addEventListener("dblclick", function () {
     artistFilter.value = "";
 });
 
 username.textContent = document.cookie.split("=")[1];
-
+/**
+ * DUncion para quitar la sesión, nos destruye la cookie y nos redirige al login
+ * @param {*} event - para evitar el comportamiento de la etiqueta <a>
+ */
 function logOff(event) {
     event.preventDefault();
 
