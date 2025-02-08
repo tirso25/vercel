@@ -21,3 +21,13 @@ function logOff(event) {
 }
 
 logoff.addEventListener("click", logOff);
+
+var egg = new Egg();
+egg.addCode("up,up,down,down,left,right,left,right,b,a", function () {
+    window.location.href = "https://www.youtube.com/watch?v=Zt_7L1eey2w&ab_channel=BestOfMemes";
+});
+
+// Escuchar las pulsaciones de teclas
+egg.addHook(function () {
+    console.log("RICK ROLEADOOOOO");
+}).listen();
