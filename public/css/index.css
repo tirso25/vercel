@@ -6,6 +6,7 @@ body {
     background-color: #1e293b;
     font-family: 'Poppins', sans-serif;
     color: #ffffff;
+    padding-top: 115px;
 }
 
 .select-container {
@@ -116,7 +117,7 @@ input:hover {
     justify-content: center;
     gap: 80px;
     padding: 10px 0;
-    background-color: #1e293b;
+    backdrop-filter: blur(3px);
     z-index: 1000;
 }
 

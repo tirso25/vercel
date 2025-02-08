@@ -25,9 +25,12 @@ logoff.addEventListener("click", logOff);
 var egg = new Egg();
 egg.addCode("up,up,down,down,left,right,left,right,b,a", function () {
     window.location.href = "https://youtu.be/Zt_7L1eey2w";
+    document.body.style.background = "url('https://img.unocero.com/2021/08/rickroll_4k.jpeg')";
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundRepeat = "no-repeat";
+    document.body.style.backgroundPosition = "center";
 });
 
-// Escuchar las pulsaciones de teclas
 egg.addHook(function () {
     console.log("RICK ROLEADOOOOO");
 }).listen();
