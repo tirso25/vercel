@@ -12,9 +12,7 @@ document.addEventListener("mousemove", (e) => {
     }, 500);
 });
 
-document.addEventListener('click', () => {
-    cursor.classList.add('cursor-click');
-    setTimeout(() => {
-        cursor.classList.remove('cursor-click');
-    }, 500);
-});
+cursor.classList.add('cursor-click');
+setTimeout(() => {
+    cursor.classList.remove('cursor-click');
+}, 500);

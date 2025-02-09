@@ -234,3 +234,11 @@ p {
         padding: 8px 16px;
     }
 }
+
+.music {
+    display: flex;
+    background-color: #ffffff;
+    width: 400px;
+    height: 250px;
+    border-radius: 10px;
+}
