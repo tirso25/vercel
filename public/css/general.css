@@ -36,25 +36,27 @@
         border: solid var(--cursor-border) var(--cursor-color);
         border-radius: 50%;
         pointer-events: none;
-        transform: translate(-50%, -50%);
         opacity: 0.85;
-        transition: all 150ms ease;
-        animation: pulse 1.5s infinite;
         z-index: 9999;
+        animation: pulse 1.5s infinite;
+        will-change: transform, opacity;
     }
 
-    .cursor::before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
+
+    .cursor {
+        display: block;
+        position: fixed;
+        width: var(--cursor-size);
+        height: var(--cursor-size);
+        border: solid var(--cursor-border) var(--cursor-color);
         border-radius: 50%;
-        background-color: var(--cursor-color);
-        top: 0;
-        left: 0;
-        transition: all 170ms ease;
-        opacity: 0;
+        pointer-events: none;
+        opacity: 0.85;
+        z-index: 9999;
+        animation: pulse 1.5s infinite;
+        will-change: transform;
     }
+
 
     @keyframes pulse {
         0% {
@@ -76,20 +78,21 @@
     }
 
     @keyframes cursor-move {
-        0% { transform: translate(-50%, -50%) scale(1); }
-        50% { transform: translate(-50%, -50%) scale(0.85); }
-        100% { transform: translate(-50%, -50%) scale(1); }
+        0% { transform: scale(1); }
+        50% { transform: scale(0.85); }
+        100% { transform: scale(1); }
     }
 
     .cursor-click {
-        animation: cursor-click 500ms, pulse 1.5s infinite;
-    }
+    animation: cursor-click 500ms;
+}
 
     @keyframes cursor-click {
-        0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        50% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
-        100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(0.8); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
     }
+
 
     .cursor-click::before {
         animation: circle-fade 800ms ease-in-out;

@@ -1,8 +1,10 @@
 const cursor = document.querySelector('.cursor');
 
 document.addEventListener("mousemove", (e) => {
-    cursor.style.left = `${e.clientX}px`;
-    cursor.style.top = `${e.clientY}px`;
+    requestAnimationFrame(() => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+    });
 
     cursor.classList.add('cursor-move');
     setTimeout(() => {
@@ -14,5 +16,5 @@ document.addEventListener('click', () => {
     cursor.classList.add('cursor-click');
     setTimeout(() => {
         cursor.classList.remove('cursor-click');
-    }, 800);
+    }, 500);
 });
