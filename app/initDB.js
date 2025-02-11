@@ -25,6 +25,8 @@ const createTableFvSongs = async () => {
             CREATE TABLE IF NOT EXISTS favouriteSongs (
                 id_song INT PRIMARY KEY,
                 id INT,
+                length VARCHAR NOT NULL,
+                latitude VARCHAR NOT NULL,
                 CONSTRAINT fk_id_user
                     FOREIGN KEY(id)
                     REFERENCES users(id)
