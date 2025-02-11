@@ -217,7 +217,7 @@ a.button:hover {
 
 @media (max-width: 768px) {
     body {
-        padding-top: 180px; /* Ajuste para el nuevo diseño compacto */
+        padding-top: 180px;
     }
 
     #filters {
@@ -229,7 +229,7 @@ a.button:hover {
     .filter-group {
         width: 100%;
         justify-content: center;
-        gap: 5px; /* Reducir el espacio entre elementos */
+        gap: 5px;
     }
 
     .user-group {
@@ -239,41 +239,152 @@ a.button:hover {
     }
 
     .select-container, input {
-        width: 120px; /* Reducir el ancho del select y el input */
+        width: 120px;
     }
 
     .filter-button {
-        width: 55px; /* Reducir el tamaño del botón */
+        width: 55px;
         height: 55px;
         font-size: 25px;
     }
 
     .smooth-select, input {
-        font-size: 14px; /* Reducir el tamaño de la fuente */
+        font-size: 14px;
     }
 }
 
 @media (max-width: 480px) {
     body {
-        padding-top: 140px; /* Ajuste adicional para pantallas muy pequeñas */
+        padding-top: 140px;
     }
 
     .select-container, input {
-        width: 100px; /* Ajustar aún más el ancho para pantallas muy pequeñas */
+        width: 100px;
     }
 
     .filter-button {
-        width: 50px; /* Ajustar aún más el tamaño del botón */
+        width: 50px;
         height: 50px;
         font-size: 25px;
     }
 
     #username {
-        font-size: 16px; /* Reducir el tamaño de la fuente del nombre de usuario */
+        font-size: 16px;
     }
 
     a.button {
         font-size: 14px;
         padding: 8px 16px;
     }
+}
+
+#resultados {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0px;
+}
+.music {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    width: 400px;
+    height: 150px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    margin: 10px; 
+}
+
+.music:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.music-favourite {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.music-favourite:hover {
+    background-color: #fad11d;
+}
+
+.music-favourite .material-symbols-outlined {
+    font-size: 18px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.music-favourite:hover .material-symbols-outlined {
+    color: #fff;
+}
+
+.music-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 100px;
+    margin-right: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #f1f1f1
+}
+
+.music-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.music-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+
+.music-content p {
+    margin: 3px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+#music-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1e293b;
+}
+
+#music-artist {
+    font-size: 14px;
+    color: #666;
+}
+
+#music-leanguaje {
+    font-size: 12px;
+    color: #888;
+}
+
+.music-content a {
+    color: #66afe9;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: color 0.3s ease;
 }
