@@ -1,10 +1,10 @@
 const username = document.getElementById("username");
 const logoff = document.getElementById("logoff");
-const artistFilter = document.getElementById("artistFilter");
+const songFilter = document.getElementById("nombreCancion");
 
 //Añadimos estilos
-artistFilter.addEventListener("dblclick", function () {
-    artistFilter.value = "";
+songFilter.addEventListener("dblclick", function () {
+    songFilter.value = "";
 });
 
 username.textContent = document.cookie.split("=")[1];

@@ -1,6 +1,5 @@
 body {
     display: flex;
-    flex-direction: column;
     min-height: 100vh;
     margin: 0;
     background-color: #1e293b;
@@ -9,9 +8,10 @@ body {
     padding-top: 115px;
 }
 
-html{
+html {
     scroll-behavior: smooth;
 }
+
 .select-container {
     position: relative;
     width: 160px;
@@ -95,6 +95,7 @@ input:hover {
     border-color: #66afe9;
     outline: none;
     box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+    transform: scale(1.05);
 }
 
 .user-container {
@@ -118,8 +119,8 @@ input:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 80px;
-    padding: 10px 0;
+    gap: 20px;
+    padding: 10px 20px;
     backdrop-filter: blur(3px);
     z-index: 1000;
 }
@@ -135,17 +136,7 @@ input:hover {
     background-color: #ffffff;
 }
 
-#resultado {
-    flex: 1;
-}
-
 .filter-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.filter-subgroup {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -154,7 +145,7 @@ input:hover {
 .user-group {
     display: flex;
     align-items: center;
-    gap: 10px; 
+    gap: 10px;
 }
 
 a.button {
@@ -177,68 +168,112 @@ a.button:hover {
     border-color: #66afe9;
 }
 
-p {
-    font-size: x-large;
-}
-
-@media (max-width: 768px) {
-    body {
-        padding-top: 280px;
-    }
-
-    #filters {
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px 0;
-    }
-
-    .filter-group {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .filter-subgroup {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .select-container, input {
-        width: 60%;
-    }
-
-    .filter-button {
-        width: 25%;
-    }
-
-    #filters::after {
-        width: 80%;
-    }
-}
-
-@media (max-width: 480px) {
-
-    body {
-        padding-top: 300px;
-    }
-
-    .smooth-select, input {
-        font-size: 14px;
-    }
-
-    #username {
-        font-size: 18px;
-    }
-
-    a.button {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-}
-
 .music {
     display: flex;
     background-color: #ffffff;
     width: 400px;
     height: 250px;
     border-radius: 10px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.music-favourite {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+}
+
+.music-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+.music-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.music-content p {
+    margin: 5px 0;
+    color: black;
+}
+
+.music-content a {
+    color: #66afe9;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 180px; /* Ajuste para el nuevo diseño compacto */
+    }
+
+    #filters {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .filter-group {
+        width: 100%;
+        justify-content: center;
+        gap: 5px; /* Reducir el espacio entre elementos */
+    }
+
+    .user-group {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .select-container, input {
+        width: 120px; /* Reducir el ancho del select y el input */
+    }
+
+    .filter-button {
+        width: 55px; /* Reducir el tamaño del botón */
+        height: 55px;
+        font-size: 25px;
+    }
+
+    .smooth-select, input {
+        font-size: 14px; /* Reducir el tamaño de la fuente */
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 140px; /* Ajuste adicional para pantallas muy pequeñas */
+    }
+
+    .select-container, input {
+        width: 100px; /* Ajustar aún más el ancho para pantallas muy pequeñas */
+    }
+
+    .filter-button {
+        width: 50px; /* Ajustar aún más el tamaño del botón */
+        height: 50px;
+        font-size: 25px;
+    }
+
+    #username {
+        font-size: 16px; /* Reducir el tamaño de la fuente del nombre de usuario */
+    }
+
+    a.button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
 }

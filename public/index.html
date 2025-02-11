@@ -19,27 +19,22 @@
     <div class="cursor cursor-click"></div>
     <div id="filters">
         <div class="filter-group">
-            <div class="filter-subgroup">
-                <div class="select-container">
-                    <select class="smooth-select" id="lenguaje">
-                        <option selected value="0">Select a language</option>
-                        <option value="es">Español</option>
-                        <option value="en">Inglés</option>
-                        <option value="fr">Francés</option>
-                        <option value="de">Alemán</option>
-                        <option value="ru">Ruso</option>
-                        <option value="ja">Japonés</option>
-                        <option value="ca">Catalán</option>
-                    </select>
-                </div>
+            <div class="select-container">
+                <select class="smooth-select" id="lenguaje">
+                    <option selected value="0">Select a language</option>
+                    <option value="es">Español</option>
+                    <option value="en">Inglés</option>
+                    <option value="fr">Francés</option>
+                    <option value="de">Alemán</option>
+                    <option value="ru">Ruso</option>
+                    <option value="ja">Japonés</option>
+                    <option value="ca">Catalán</option>
+                </select>
             </div>
-
-            <div class="filter-subgroup">
-                <input type="text" placeholder="Type a song" id="nombreCancion" >
-                <button class="filter-button" id="searchLenguaje">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
+            <input type="text" placeholder="Type a song" id="nombreCancion">
+            <button class="filter-button" id="searchButton">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
         </div>
 
         <div class="user-group">
@@ -58,7 +53,7 @@
             <div class="music-image">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/480px-Spotify_logo_without_text.svg.png" alt="spotify logo" style="width: 50px;">
             </div>
-            <div class="music-contetn">
+            <div class="music-content">
                 <p id="music-title" style="color: black;"><b>TEST</b></p>
                 <p id="music-artist" style="color: black;">Test</p>
                 <p id="music-leanguaje" style="color: black;">en</p>
