@@ -72,7 +72,7 @@ function addMusic() {
     pTitle.textContent = "TEST";
     let pArtirs = document.createElement("p");
     pArtirs.setAttribute('id', 'music-artist');
-    pArtirs.textContent = "Test";
+    pArtirs.textContent = "Test🧑‍🎤";
     let pLenguaje = document.createElement("p");
     pLenguaje.setAttribute('id', 'music-leanguaje');
     pLenguaje.textContent = "en";
