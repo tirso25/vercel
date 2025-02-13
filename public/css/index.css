@@ -282,8 +282,6 @@ a.button:hover {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: 10px;
-    padding: 0px;
 }
 .music {
     display: flex;
