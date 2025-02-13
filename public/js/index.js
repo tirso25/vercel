@@ -91,4 +91,6 @@ function addMusic() {
     divResultado.appendChild(divMusic);
 };
 
-addMusic();
+document.addEventListener("DOMContentLoaded", function () {
+    addMusic();
+});
