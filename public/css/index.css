@@ -255,7 +255,7 @@ a.button:hover {
 
 @media (max-width: 480px) {
     body {
-        padding-top: 140px;
+        padding-top: 180px;
     }
 
     .select-container, input {
