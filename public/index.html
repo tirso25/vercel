@@ -22,7 +22,6 @@
         <div class="filter-group">
             <div class="select-container">
                 <select class="smooth-select" id="lenguaje">
-                    <option selected value="0">Select a language</option>
                     <option value="es">Español</option>
                     <option value="en">Inglés</option>
                     <option value="fr">Francés</option>
@@ -33,7 +32,7 @@
                 </select>
             </div>
             <input type="text" placeholder="Type a song" id="nombreCancion">
-            <button class="filter-button" id="searchLenguaje">
+            <button class="filter-button" id="searchButton">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
@@ -46,8 +45,10 @@
             <a id="logoff" href="#" class="button">Log Off</a> 
         </div>
     </div>
-    <div id="resultados"></div>
+    <div id="resultados">
+    </div>
 </body>
 <script src="./js/index.js"></script>
+<script src="./js/songs.js"></script>
 <script src="./js/general.js"></script>
 </html>
