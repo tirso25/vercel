@@ -2,6 +2,13 @@ const username = document.getElementById("username");
 const logoff = document.getElementById("logoff");
 const songFilter = document.getElementById("nombreCancion");
 const divResultado = document.getElementById("resultados");
+const select = document.getElementById("lenguaje");
+
+//Si seleccionamos un idioma se limpia el input de artista/canción
+select.addEventListener("click", function () {
+    const musicInput = document.getElementById("nombreCancion");
+    musicInput.value = "";
+});
 //Añadimos estilos
 songFilter.addEventListener("dblclick", function () {
     songFilter.value = "";
