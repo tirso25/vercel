@@ -9,6 +9,7 @@ select.addEventListener("click", function () {
     const musicInput = document.getElementById("nombreCancion");
     musicInput.value = "";
 });
+
 //Añadimos estilos
 songFilter.addEventListener("dblclick", function () {
     songFilter.value = "";

@@ -1,5 +1,5 @@
 const url = 'https://spotify23.p.rapidapi.com/search/';
-const RAPIDAPI_KEY = '192947fff8mshc960bc1e0451cc8p1ed7d7jsnb36657bd97d6';
+const RAPIDAPI_KEY = 'b8419777e3msh4c7899aae5b8ba7p139a63jsnc725b93b49c5';
 const delayTime = 1;
 const limit = 4;
 const contenedor = document.getElementById('resultados');
@@ -83,12 +83,13 @@ function mostrarCancion(data, contenedor, idiomaElegido = null) {
  * @param {Array} cancionesAcumuladas - Canciones encontradas hasta el momento (opcional).
  */
 async function buscarPorIdioma(idiomaElegido, intentos = 0, cancionesAcumuladas = []) {
-    if (!idiomaElegido) {
+    if (!idiomaElegido || idiomaElegido == 0) {
         Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "Introduce un lenguaje válido."
         });
+        removeLoader()
         return;
     }
 
@@ -400,9 +401,5 @@ document.getElementById('searchButton').addEventListener('click', () => {
     const idiomaElegido = document.getElementById('lenguaje').value.trim();
     const nombreCancion = document.getElementById('nombreCancion').value.trim();
     addLoader();
-    if (nombreCancion === "") {
-        buscarPorIdioma(idiomaElegido);
-    } else {
-        buscarPorCancion(nombreCancion);
-    }
+    !nombreCancion ? buscarPorIdioma(idiomaElegido) : buscarPorCancion(nombreCancion);
 });
