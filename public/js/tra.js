@@ -1,7 +1,7 @@
 const url = 'https://spotify23.p.rapidapi.com/search/';
-const RAPIDAPI_KEY = 'b8419777e3msh4c7899aae5b8ba7p139a63jsnc725b93b49c5';
+const RAPIDAPI_KEY = 'a99e301354msh2b42c644dc00e32p1e223ajsn527118af6249';
 const delayTime = 1;
-const limit = 3;
+const limit = 1;
 const contenedor = document.getElementById('resultados');
 
 /**
@@ -83,13 +83,12 @@ function mostrarCancion(data, contenedor, idiomaElegido = null) {
  * @param {Array} cancionesAcumuladas - Canciones encontradas hasta el momento (opcional).
  */
 async function buscarPorIdioma(idiomaElegido, intentos = 0, cancionesAcumuladas = []) {
-    if (!idiomaElegido || idiomaElegido == 0) {
+    if (!idiomaElegido) {
         Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "Introduce un lenguaje válido."
         });
-        removeLoader()
         return;
     }
 
@@ -98,8 +97,8 @@ async function buscarPorIdioma(idiomaElegido, intentos = 0, cancionesAcumuladas 
 
     addLoader();
 
-    const MAX_INTENTOS = 5;
-    const LIMIT = 4;
+    const MAX_INTENTOS = 2;
+    const LIMIT = 1;
 
     if (intentos >= MAX_INTENTOS) {
         removeLoader();
@@ -382,7 +381,6 @@ function addLetter(cancion) {
     card.appendChild(idioma);
     card.appendChild(letra);
     cards.appendChild(card);
-
     const goBack = document.createElement("a");
     goBack.textContent = "Go back";
     goBack.setAttribute("class", "button");
@@ -395,7 +393,6 @@ function addLetter(cancion) {
 
     const select = document.createElement('select');
     select.setAttribute('id', 'lenguaje');
-    select.setAttribute("class", "mooth-select");
 
     const idiomas = [
         { value: 'es', text: 'Español' },
@@ -490,5 +487,9 @@ document.getElementById('searchButton').addEventListener('click', () => {
     const idiomaElegido = document.getElementById('lenguaje').value.trim();
     const nombreCancion = document.getElementById('nombreCancion').value.trim();
     addLoader();
-    !nombreCancion ? buscarPorIdioma(idiomaElegido) : buscarPorCancion(nombreCancion);
+    if (nombreCancion === "") {
+        buscarPorIdioma(idiomaElegido);
+    } else {
+        buscarPorCancion(nombreCancion);
+    }
 });

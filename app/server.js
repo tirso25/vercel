@@ -2,7 +2,7 @@ const express = require("express");//Para poder utilizar express
 const db = require("./db");//Carga el archivo db.js para la conexión con la bd y poder comunicarnos con la bd
 require("dotenv").config();//Carga las variables del archivo .env(DATABASE_URL/PORT)
 const app = express();//Creamos una variable para poder utilizar las funciones de express
-const PORT = process.env.PORT || 3000;//Cojemos el puerto del archivo .env o lo definimos nosotros
+const PORT = process.env.PORT || 4000;//Cojemos el puerto del archivo .env o lo definimos nosotros
 const path = require("path");
 const bcrypt = require('bcryptjs');//encriptar
 app.use(express.urlencoded({ extended: false }));
