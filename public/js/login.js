@@ -105,7 +105,7 @@ function login() {
         })
         .then((mensaje) => {
             document.cookie = `username=${mensaje.username}; expires=; path=/`;
-
+            document.cookie = `id=${mensaje.id}; expires=; path=/`;
             Swal.fire({
                 title: mensaje['mensaje'],
                 icon: "success",

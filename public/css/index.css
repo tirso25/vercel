@@ -20,8 +20,7 @@ html {
 }
 
 .smooth-select {
-    width: 100%;
-    height: 100%;
+    height: 50px;
     padding: 10px;
     font-size: 16px;
     border: 2px solid #ccc;

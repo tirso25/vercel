@@ -10,7 +10,8 @@ const createTableUsers = async () => {
                 id SERIAL PRIMARY KEY,
                 email VARCHAR(150) UNIQUE NOT NULL,
                 username VARCHAR(100) NOT NULL,
-                password TEXT NOT NULL
+                password TEXT NOT NULL,
+                creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
         `);
         console.log("✅ Tabla 'users' creada o ya existía.");
@@ -22,15 +23,13 @@ const createTableUsers = async () => {
 const createTableFvSongs = async () => {
     try {
         await pool.query(`
-            CREATE TABLE IF NOT EXISTS favouriteSongs (
-                id_song INT PRIMARY KEY,
-                id INT,
-                length VARCHAR NOT NULL,
-                latitude VARCHAR NOT NULL,
-                CONSTRAINT fk_id_user
-                    FOREIGN KEY(id)
-                    REFERENCES users(id)
-            );
+        CREATE TABLE IF NOT EXISTS favouriteSongs (
+            id_song VARCHAR(150) NOT NULL,
+            id_user INT NOT NULL,
+            agregado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id_song, id_user),
+            CONSTRAINT fk_user FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
+        );
         `);
         console.log("✅ Tabla 'favouriteSongs' creada o ya existía.");
     } catch (err) {

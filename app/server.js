@@ -21,7 +21,7 @@ app.use(cors({
  * Nos redirige al index
  */
 app.get("/", (req, res) => {
-    es.sendFile(path.join(__dirname, "../public/index.html"));
+    res.sendFile(path.join(__dirname, "../public/index.html"));
 })
 /**
  * nos redirige al registro
@@ -35,11 +35,28 @@ app.get("/signin", (req, res) => {
 app.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/login.html"));
 });
-/**
- * Directorio para registrr
- * es post ya que insertamos un usuario en la bd
- */
+
+app.post("/ver/favs", async (req, res) => {
+    const {idUser} = req.body;
+    //comprobamos que no nos lleguen datos vacios
+    if (!idUser) {
+        return res.status(400).json({ mensaje: "Todos los campos son obligatorios" });
+    }
+    //vemos si esa canción ya se ha añadido a favorito
+    const querySelectUname = "SELECT * FROM favouriteSongs WHERE id_user = $1";
+    try {
+        const resultSelectUname = await db.query(querySelectUname, [idUser]);
+        //si se ha encontrado devolvemos un estado 400 (ervidor no pudo interpretar la solicitud dada una sintaxis inválida)
+        if (resultSelectUname.rows.length > 0) {
+            return res.status(200).json({ cancionesArray: resultSelectUname });
+        }
+    } catch (err) {
+        return res.status(500).json({ mensaje: "Error del servidor"});
+    }
+});
+
 app.post("/users/signin", async (req, res) => {
+try{
     const { email, username, password } = req.body;
     //comprobamos que no nos lleguen datos vacios
     if (!email || !username || !password) {
@@ -67,10 +84,44 @@ app.post("/users/signin", async (req, res) => {
     } catch (err) {
         return res.status(500).json({ mensaje: "Error del servidor" });
     }
+  } catch (err) {
+    return res.status(500).json({
+      mensaje: "Error del servidor",
+    });
+  }
 });
-/**
- * Directorio para iniciar sesión
- */
+
+app.post("/users/favs", async(req, res)=>{
+    const {idSong, idUser} = req.body;
+    //comprobamos que no nos lleguen datos vacios
+    if (!idUser || !idSong) {
+        return res.status(400).json({ mensaje: "Todos los campos son obligatorios" });
+    }
+    //vemos si esa canción ya se ha añadido a favorito
+    const querySelectUname = "SELECT * FROM favouriteSongs WHERE id_song = $1 AND id_user = $2";
+    try {
+        const resultSelectUname = await db.query(querySelectUname, [idSong,idUser]);
+
+        //si se ha encontrado devolvemos un estado 400 (ervidor no pudo interpretar la solicitud dada una sintaxis inválida)
+        if (resultSelectUname.rows.length > 0) {
+            const queryDelectUname = "DELETE FROM favouriteSongs WHERE id_song = $1 AND id_user = $2";
+            await db.query(queryDelectUname, [idSong,idUser]);
+            return res.status(201).json({ mensaje: "Canción eliminada de favoritos" });
+        }
+        //insertamos
+        const queryInsert = "INSERT INTO favouriteSongs (id_song, id_user) VALUES ($1, $2)";
+        try {
+            await db.query(queryInsert, [idSong, idUser]);
+            //devolvemos un 201 ya que hemos creado un nuevo registro
+            return res.status(201).json({ mensaje: "Canción favorita insertada correctamente" });
+        } catch (err) {
+            return res.status(500).json({ mensaje: "Error del servidor" });
+        }
+    } catch (err) {
+        return res.status(500).json({ mensaje: "Error del servidor"});
+    }
+});
+
 app.post("/users/login", async (req, res) => {
     const { email, password } = req.body;
     //comprobamos que no nos lleguen datos vacios
@@ -89,14 +140,15 @@ app.post("/users/login", async (req, res) => {
 
         const userPw = resultSelectUname.rows[0].password;
         const userUsername = resultSelectUname.rows[0].username;
-        //comprobamos que las contraseña sean iguales
+        const idUser = resultSelectUname.rows[0].id;
+        //comprobamos que las contraseña sean iguales 
         let comparePW = bcrypt.compareSync(password, userPw);
 
         if (!comparePW) {
             return res.status(400).json({ mensaje: "Usuario o contraseña incorrecta" });
         }
 
-        return res.status(200).json({ mensaje: "Inicio de sesión exitoso", username: userUsername });
+        return res.status(200).json({ mensaje: "Inicio de sesión exitoso", username: userUsername, id: idUser });
 
     } catch (err) {
         return res.status(500).json({ mensaje: "Error del servidor" });

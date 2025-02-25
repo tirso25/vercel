@@ -18,7 +18,9 @@ songFilter.addEventListener("dblclick", function () {
 /**
  * Cojemos la cookie y sacamos el nombre del usuario logado con el split
  */
-username.textContent = document.cookie.split("=")[1];
+let cookieSeparadas = document.cookie.split(' ');
+username.textContent = cookieSeparadas[0].split("=")[1].replace(';','');
+
 
 /**
  * DUncion para quitar la sesión, nos destruye la cookie y nos redirige al login

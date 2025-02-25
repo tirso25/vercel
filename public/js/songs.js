@@ -57,9 +57,9 @@ function fetchLetra(idCancion) {
  * @param {string} idiomaElegido - Idioma deseado (opcional).
  */
 function mostrarCancion(data, contenedor, idiomaElegido = null) {
-    const { nombreCancion, nombreArtista, letra, lenguaje, img } = data;
+    const { idCancion ,nombreCancion, nombreArtista, letra, lenguaje, img } = data;
     removeLoader();
-    addMusic(nombreCancion, nombreArtista, idiomaElegido || lenguaje, img);
+    addMusic(idCancion ,nombreCancion, nombreArtista, idiomaElegido || lenguaje, img);
     removeLoader();
 
     const aSeeSong = contenedor.querySelector('.music:last-child .music-content button');
@@ -156,7 +156,7 @@ async function buscarPorIdioma(idiomaElegido, intentos = 0, cancionesAcumuladas 
             if (cancionesAcumuladas.length >= LIMIT) {
                 removeLoader();
                 cancionesAcumuladas.forEach(cancion => {
-                    mostrarCancion(cancion, contenedor, idiomaElegido);
+                    mostrarCancion(idCancion, cancion, contenedor, idiomaElegido);
                 });
                 return;
             }
@@ -175,6 +175,7 @@ async function buscarPorIdioma(idiomaElegido, intentos = 0, cancionesAcumuladas 
     }
 
     buscarPorIdioma(idiomaElegido, intentos + 1, cancionesAcumuladas);
+    addFav();
 }
 
 /**
@@ -200,10 +201,10 @@ async function buscarPorCancion(nombreCancion) {
 
                 const letraData = await fetchLetra(idCancion);
                 removeLoader();
-                mostrarCancion({ nombreCancion, nombreArtista, letra: letraData.lyrics.lines.map(line => line.words).join('<br>'), img }, contenedor);
+                mostrarCancion({idCancion, nombreCancion, nombreArtista, letra: letraData.lyrics.lines.map(line => line.words).join('<br>'), lenguaje:letraData.lyrics.language, img }, contenedor);
                 removeLoader();
             }
-
+            addFav();
             removeLoader();
         } else {
             removeLoader();
@@ -227,7 +228,7 @@ async function buscarPorCancion(nombreCancion) {
  * @param {string} idioma - Idioma de la canción.
  * @param {string} img - URL de la imagen de la canción.
  */
-function addMusic(nombreCancion, nombreArtista, idioma, img) {
+function addMusic(idCancion ,nombreCancion, nombreArtista, idioma, img) {
     let divMusic = document.createElement("div");
     divMusic.setAttribute('class', 'music');
 
@@ -235,6 +236,7 @@ function addMusic(nombreCancion, nombreArtista, idioma, img) {
     divMusicFavourite.setAttribute('class', 'music-favourite');
     let spanMusicFavourite = document.createElement("span");
     spanMusicFavourite.setAttribute('class', 'material-symbols-outlined');
+    spanMusicFavourite.setAttribute('id', idCancion);
     spanMusicFavourite.textContent = "bookmark";
     divMusicFavourite.appendChild(spanMusicFavourite);
 
@@ -394,10 +396,11 @@ function addLetter(cancion) {
     label.setAttribute('for', 'lenguaje');
 
     const select = document.createElement('select');
+    select.setAttribute("class", "smooth-select");
     select.setAttribute('id', 'lenguaje');
-    select.setAttribute("class", "mooth-select");
 
     const idiomas = [
+        { value: '0', text: 'Select a language'},
         { value: 'es', text: 'Español' },
         { value: 'en', text: 'Inglés' },
         { value: 'fr', text: 'Francés' },
@@ -418,11 +421,13 @@ function addLetter(cancion) {
 
     const boton = document.createElement('button');
     boton.setAttribute('id', 'mostrarTraduccion');
-    boton.setAttribute("class", "button");
-    boton.textContent = 'Mostrar traducción';
+    boton.setAttribute("class", "filter-button");
+    const i = document.createElement("i");
+    i.setAttribute("class", "fa-solid fa-language");
     let letraTraducida;
     let card2 = document.createElement("div");
     card2.classList.add("card");
+    boton.appendChild(i);
     boton.addEventListener('click', () => {
         card2.innerHTML = ""
 
@@ -482,6 +487,62 @@ function removeLoader() {
     const loaderContainer = document.querySelector('.loader-container');
     if (loaderContainer) {
         loaderContainer.remove();
+    }
+}
+
+function addFav(){  
+    // Obtener todos los elementos con la clase "material-symbols-outlined"
+    let favs = document.getElementsByClassName("material-symbols-outlined");
+
+    // La 'cookieSeparadas' está definida previamente.
+    const idUsuario = cookieSeparadas[1].split('=')[1];
+    console.log(idUsuario);
+    // Iteramos usando un bucle for para recorrer solo los índices numéricos
+    for (let i = 0; i < favs.length; i++) {
+        favs[i].addEventListener("click", favourite);
+    }
+    
+    function favourite() {
+        const data = {
+            idSong: this.id,
+            idUser: idUsuario,
+        };
+        console.log(data);
+        fetch("/users/favs", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            // Si la respuesta no es exitosa, se muestra el error y se detiene la cadena
+            if (!response.ok) {
+                return response.json().then(mensaje => {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: mensaje['mensaje']
+                    });
+                    throw new Error(mensaje['mensaje']);
+                });
+            }
+            return response.json();
+        })
+        .then(mensaje => {
+            Swal.fire({
+                title: mensaje['mensaje'],
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 1700);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
     }
 }
 
