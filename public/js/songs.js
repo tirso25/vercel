@@ -3,6 +3,8 @@ const RAPIDAPI_KEY = 'b8419777e3msh4c7899aae5b8ba7p139a63jsnc725b93b49c5';
 const delayTime = 1;
 const limit = 3;
 const contenedor = document.getElementById('resultados');
+// La 'cookieSeparadas' está definida previamente.
+const idUsuario = cookieSeparadas[1].split('=')[1];
 
 /**
  * Obtiene una lista de canciones basada en un offset aleatorio o un nombre de artista.
@@ -10,7 +12,7 @@ const contenedor = document.getElementById('resultados');
  * @param {string} nombreArtista - Nombre del artista para buscar canciones específicas.
  * @returns {Promise} - Promesa con los datos de las canciones.
  */
-function fetchCanciones(offset, nombreArtista = "") {
+async function fetchCanciones(offset, nombreArtista = "") {
     const query = nombreArtista ? nombreArtista : 'track';//TERNARIA (COMO UN IF)
     const endpoint = nombreArtista ? `${url}?q=${nombreArtista}&type=track&limit=${limit}` : `${url}?q=${query}&type=track&offset=${offset}&limit=${limit}`;
 
@@ -34,7 +36,7 @@ function fetchCanciones(offset, nombreArtista = "") {
  * @param {string} idCancion - ID de la canción.
  * @returns {Promise} - Promesa con los datos de la letra y el idioma.
  */
-function fetchLetra(idCancion) {
+async function fetchLetra(idCancion) {
     return fetch(`https://spotify23.p.rapidapi.com/track_lyrics/?id=${idCancion}`, {
         method: 'GET',
         headers: {
@@ -57,9 +59,9 @@ function fetchLetra(idCancion) {
  * @param {string} idiomaElegido - Idioma deseado (opcional).
  */
 function mostrarCancion(data, contenedor, idiomaElegido = null) {
-    const { idCancion ,nombreCancion, nombreArtista, letra, lenguaje, img } = data;
+    const { idCancion, nombreCancion, nombreArtista, letra, lenguaje, img } = data;
     removeLoader();
-    addMusic(idCancion ,nombreCancion, nombreArtista, idiomaElegido || lenguaje, img);
+    addMusic(idCancion, nombreCancion, nombreArtista, idiomaElegido || lenguaje, img);
     removeLoader();
 
     const aSeeSong = contenedor.querySelector('.music:last-child .music-content button');
@@ -201,7 +203,7 @@ async function buscarPorCancion(nombreCancion) {
 
                 const letraData = await fetchLetra(idCancion);
                 removeLoader();
-                mostrarCancion({idCancion, nombreCancion, nombreArtista, letra: letraData.lyrics.lines.map(line => line.words).join('<br>'), lenguaje:letraData.lyrics.language, img }, contenedor);
+                mostrarCancion({ idCancion, nombreCancion, nombreArtista, letra: letraData.lyrics.lines.map(line => line.words).join('<br>'), lenguaje: letraData.lyrics.language, img }, contenedor);
                 removeLoader();
             }
             addFav();
@@ -228,7 +230,7 @@ async function buscarPorCancion(nombreCancion) {
  * @param {string} idioma - Idioma de la canción.
  * @param {string} img - URL de la imagen de la canción.
  */
-function addMusic(idCancion ,nombreCancion, nombreArtista, idioma, img) {
+function addMusic(idCancion, nombreCancion, nombreArtista, idioma, img) {
     let divMusic = document.createElement("div");
     divMusic.setAttribute('class', 'music');
 
@@ -258,11 +260,10 @@ function addMusic(idCancion ,nombreCancion, nombreArtista, idioma, img) {
     pLenguaje.setAttribute('id', 'music-leanguaje');
     pLenguaje.textContent = idioma;
 
-    // Cambiar el elemento <a> por un <button>
     let buttonSeeSong = document.createElement("button");
     buttonSeeSong.textContent = "See song🎵";
-    buttonSeeSong.setAttribute('class', 'button'); // Aplicar la clase de estilo
-    buttonSeeSong.setAttribute('type', 'button'); // Especificar el tipo de botón
+    buttonSeeSong.setAttribute('class', 'button');
+    buttonSeeSong.setAttribute('type', 'button');
 
     divMusicContent.appendChild(pTitle);
     divMusicContent.appendChild(pArtirs);
@@ -400,7 +401,7 @@ function addLetter(cancion) {
     select.setAttribute('id', 'lenguaje');
 
     const idiomas = [
-        { value: '0', text: 'Select a language'},
+        { value: '0', text: 'Select a language' },
         { value: 'es', text: 'Español' },
         { value: 'en', text: 'Inglés' },
         { value: 'fr', text: 'Francés' },
@@ -490,18 +491,15 @@ function removeLoader() {
     }
 }
 
-function addFav(){  
+function addFav() {
     // Obtener todos los elementos con la clase "material-symbols-outlined"
     let favs = document.getElementsByClassName("material-symbols-outlined");
 
-    // La 'cookieSeparadas' está definida previamente.
-    const idUsuario = cookieSeparadas[1].split('=')[1];
-    console.log(idUsuario);
     // Iteramos usando un bucle for para recorrer solo los índices numéricos
     for (let i = 0; i < favs.length; i++) {
         favs[i].addEventListener("click", favourite);
     }
-    
+
     function favourite() {
         const data = {
             idSong: this.id,
@@ -515,36 +513,95 @@ function addFav(){
             },
             body: JSON.stringify(data)
         })
-        .then(response => {
-            // Si la respuesta no es exitosa, se muestra el error y se detiene la cadena
-            if (!response.ok) {
-                return response.json().then(mensaje => {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: mensaje['mensaje']
+            .then(response => {
+                // Si la respuesta no es exitosa, se muestra el error y se detiene la cadena
+                if (!response.ok) {
+                    return response.json().then(mensaje => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: mensaje['mensaje']
+                        });
+                        throw new Error(mensaje['mensaje']);
                     });
-                    throw new Error(mensaje['mensaje']);
+                }
+                return response.json();
+            })
+            .then(mensaje => {
+                Swal.fire({
+                    title: mensaje['mensaje'],
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500
                 });
-            }
-            return response.json();
-        })
-        .then(mensaje => {
-            Swal.fire({
-                title: mensaje['mensaje'],
-                icon: "success",
-                showConfirmButton: false,
-                timer: 1500
+            })
+            .catch(error => {
+                console.error("Error:", error);
             });
-            setTimeout(() => {
-                window.location.href = "/";
-            }, 1700);
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
     }
 }
+/**
+ * Medianmte fetch atacamos a nuestro endpoint, obtenemos los id de las canciones guardadas y llamamos a mostrarCancionFavorita para imprimirlas
+ * @param {*} idUser - el id del usuario actual sacado mediante el split a la cookie
+ */
+async function getFavourites(idUser) {
+    try {
+        const response = await fetch("/ver/favs", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ idUser })
+        });
+
+        const canciones = await response.json();
+
+        contenedor.innerHTML = '';
+
+        for (const cancion of canciones.cancionesArray.rows) {
+            const idCancion = cancion.id_song;
+            await mostrarCancionFavorita(idCancion, contenedor);
+        }
+
+    } catch (error) {
+        console.error("Error al obtener favoritos:", error);
+    }
+}
+
+/**
+ * Obtiene la información completa de una canción y la muestra en el contenedor.
+ * @param {string} idCancion - ID de la canción.
+ * @param {HTMLElement} contenedor - Contenedor donde se mostrará la canción.
+ */
+async function mostrarCancionFavorita(idCancion, contenedor) {
+    try {
+        const trackInfo = await fetch(`https://spotify23.p.rapidapi.com/tracks/?ids=${idCancion}`, {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Host': 'spotify23.p.rapidapi.com',
+                'X-RapidAPI-Key': RAPIDAPI_KEY,
+                'Content-Type': 'application/json',
+            },
+        }).then(response => response.json());
+
+        const track = trackInfo.tracks[0];
+        const nombreCancion = track.name;
+        const nombreArtista = track.artists[0].name;
+        const img = track.album.images[0].url;
+
+        const letraData = await fetchLetra(idCancion);
+        const lenguaje = letraData.lyrics.language;
+        const letra = letraData.lyrics.lines.map(line => line.words).join('<br>');
+
+        mostrarCancion({ idCancion, nombreCancion, nombreArtista, letra, lenguaje, img }, contenedor);
+
+    } catch (error) {
+        console.error('Error al obtener la información de la canción:', error);
+    }
+}
+
+// Event listener para el botón de ver favoritos
+document.querySelector('.user-container').addEventListener("click", () => getFavourites(idUsuario));
 
 // Event listener para el botón de búsqueda
 document.getElementById('searchButton').addEventListener('click', () => {

@@ -23,12 +23,14 @@ app.use(cors({
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"));
 })
+
 /**
  * nos redirige al registro
  */
 app.get("/signin", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/signIn.html"));
 });
+
 /**
  * nos redirige al inicio de sesion
  */
@@ -37,7 +39,7 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/ver/favs", async (req, res) => {
-    const {idUser} = req.body;
+    const { idUser } = req.body;
     //comprobamos que no nos lleguen datos vacios
     if (!idUser) {
         return res.status(400).json({ mensaje: "Todos los campos son obligatorios" });
@@ -51,48 +53,48 @@ app.post("/ver/favs", async (req, res) => {
             return res.status(200).json({ cancionesArray: resultSelectUname });
         }
     } catch (err) {
-        return res.status(500).json({ mensaje: "Error del servidor"});
+        return res.status(500).json({ mensaje: "Error del servidor" });
     }
 });
 
 app.post("/users/signin", async (req, res) => {
-try{
-    const { email, username, password } = req.body;
-    //comprobamos que no nos lleguen datos vacios
-    if (!email || !username || !password) {
-        return res.status(400).json({ mensaje: "Todos los campos son obligatorios" });
-    }
-    //comprobamos que no exista otro usuario con ese email o username
-    const querySelect = "SELECT * FROM users WHERE email = $1 OR username = $2";
     try {
-        const result = await db.query(querySelect, [email, username]);
-        //si se ha encontrado devolvemos un estado 400 (ervidor no pudo interpretar la solicitud dada una sintaxis inválida)
-        if (result.rows.length > 0) {
-            return res.status(400).json({ mensaje: "Email o usuario ya registrado" });
+        const { email, username, password } = req.body;
+        //comprobamos que no nos lleguen datos vacios
+        if (!email || !username || !password) {
+            return res.status(400).json({ mensaje: "Todos los campos son obligatorios" });
         }
-        //insertamos
-        const queryInsert = "INSERT INTO users (email, username, password) VALUES ($1, $2, $3)";
-        //encriptamos la contraseña
-        let passwordHash = await bcrypt.hash(password, 8)
+        //comprobamos que no exista otro usuario con ese email o username
+        const querySelect = "SELECT * FROM users WHERE email = $1 OR username = $2";
         try {
-            await db.query(queryInsert, [email, username, passwordHash]);
-            //devolvemos un 201 ya que hemos creado un nuevo registro
-            return res.status(201).json({ mensaje: "Usuario guardado correctamente" });
+            const result = await db.query(querySelect, [email, username]);
+            //si se ha encontrado devolvemos un estado 400 (ervidor no pudo interpretar la solicitud dada una sintaxis inválida)
+            if (result.rows.length > 0) {
+                return res.status(400).json({ mensaje: "Email o usuario ya registrado" });
+            }
+            //insertamos
+            const queryInsert = "INSERT INTO users (email, username, password) VALUES ($1, $2, $3)";
+            //encriptamos la contraseña
+            let passwordHash = await bcrypt.hash(password, 8)
+            try {
+                await db.query(queryInsert, [email, username, passwordHash]);
+                //devolvemos un 201 ya que hemos creado un nuevo registro
+                return res.status(201).json({ mensaje: "Usuario guardado correctamente" });
+            } catch (err) {
+                return res.status(500).json({ mensaje: "Error del servidor" });
+            }
         } catch (err) {
             return res.status(500).json({ mensaje: "Error del servidor" });
         }
     } catch (err) {
-        return res.status(500).json({ mensaje: "Error del servidor" });
+        return res.status(500).json({
+            mensaje: "Error del servidor",
+        });
     }
-  } catch (err) {
-    return res.status(500).json({
-      mensaje: "Error del servidor",
-    });
-  }
 });
 
-app.post("/users/favs", async(req, res)=>{
-    const {idSong, idUser} = req.body;
+app.post("/users/favs", async (req, res) => {
+    const { idSong, idUser } = req.body;
     //comprobamos que no nos lleguen datos vacios
     if (!idUser || !idSong) {
         return res.status(400).json({ mensaje: "Todos los campos son obligatorios" });
@@ -100,12 +102,12 @@ app.post("/users/favs", async(req, res)=>{
     //vemos si esa canción ya se ha añadido a favorito
     const querySelectUname = "SELECT * FROM favouriteSongs WHERE id_song = $1 AND id_user = $2";
     try {
-        const resultSelectUname = await db.query(querySelectUname, [idSong,idUser]);
+        const resultSelectUname = await db.query(querySelectUname, [idSong, idUser]);
 
         //si se ha encontrado devolvemos un estado 400 (ervidor no pudo interpretar la solicitud dada una sintaxis inválida)
         if (resultSelectUname.rows.length > 0) {
             const queryDelectUname = "DELETE FROM favouriteSongs WHERE id_song = $1 AND id_user = $2";
-            await db.query(queryDelectUname, [idSong,idUser]);
+            await db.query(queryDelectUname, [idSong, idUser]);
             return res.status(201).json({ mensaje: "Canción eliminada de favoritos" });
         }
         //insertamos
@@ -118,7 +120,7 @@ app.post("/users/favs", async(req, res)=>{
             return res.status(500).json({ mensaje: "Error del servidor" });
         }
     } catch (err) {
-        return res.status(500).json({ mensaje: "Error del servidor"});
+        return res.status(500).json({ mensaje: "Error del servidor" });
     }
 });
 
