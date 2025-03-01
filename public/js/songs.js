@@ -523,11 +523,14 @@ function removeLoader() {
     }
 }
 
+/**
+ * Añadir favoritos
+ */
 function addFav() {
-    // // Obtener todos los elementos con la clase "material-symbols-outlined"
+    //Obtener todos los elementos con la clase "material-symbols-outlined"
     let favs = document.getElementsByClassName("material-symbols-outlined");
 
-    // // Iteramos usando un bucle for para recorrer solo los índices numéricos
+    //Iteramos usando un bucle for para recorrer solo los índices numéricos
     for (let i = 0; i < favs.length; i++) {
         favs[i].addEventListener("click", favourite);
     }
@@ -669,6 +672,10 @@ function mostrarNotificacion(mensaje) {
     };
 }
 
+/**
+ * FUncióm para obtener información de un artista
+ * @param {*} artista - Nombre del artista pasado mediante un evento click al crearse la carta con la información de la musica
+ */
 async function buscarArtista(artista) {
     try {
         const response = await fetch(`https://spotify23.p.rapidapi.com/search?q=${artista}&type=artist&limit=5`, {
@@ -743,6 +750,7 @@ document.getElementById('searchButton').addEventListener('click', () => {
     !nombreCancion ? buscarPorIdioma(idiomaElegido) : buscarPorCancion(nombreCancion);
 });
 
+//COmprobamos que tenga activado tanto las notificaciones como la geolocalización
 document.addEventListener("DOMContentLoaded", function () {
     if (Notification.permission === "granted") {
         console.log("Permiso de notificación ya concedido.");
