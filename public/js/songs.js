@@ -657,8 +657,6 @@ navigator.geolocation.getCurrentPosition(
     { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
 );
 
-
-
 // Event listener para el botón de ver favoritos
 document.querySelector('.user-container').addEventListener("click", () => getFavourites(idUsuario));
 
