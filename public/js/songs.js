@@ -750,7 +750,7 @@ document.getElementById('searchButton').addEventListener('click', () => {
     !nombreCancion ? buscarPorIdioma(idiomaElegido) : buscarPorCancion(nombreCancion);
 });
 
-//COmprobamos que tenga activado tanto las notificaciones como la geolocalización
+//Comprobamos que tenga activado tanto las notificaciones como la geolocalización
 document.addEventListener("DOMContentLoaded", function () {
     if (Notification.permission === "granted") {
         console.log("Permiso de notificación ya concedido.");
