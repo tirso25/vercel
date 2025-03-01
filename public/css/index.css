@@ -104,6 +104,10 @@ input:hover {
     gap: 5px;
 }
 
+.user-container:hover {
+    color: #66afe9;
+}
+
 #username {
     margin: 0;
     font-size: 20px;
