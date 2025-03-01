@@ -16,14 +16,13 @@ songFilter.addEventListener("dblclick", function () {
 });
 
 /**
- * Cojemos la cookie y sacamos el nombre del usuario logado con el split
+ * Obtenemos la cookie y sacamos el nombre del usuario logado con el split
  */
 let cookieSeparadas = document.cookie.split(' ');
-username.textContent = cookieSeparadas[0].split("=")[1].replace(';','');
-
+username.textContent = cookieSeparadas[0].split("=")[1].replace(';', '');
 
 /**
- * DUncion para quitar la sesión, nos destruye la cookie y nos redirige al login
+ * Funcion para quitar la sesión, nos destruye la cookie y nos redirige al login
  * @param {*} event - para evitar el comportamiento de la etiqueta <a>
  */
 function logOff(event) {

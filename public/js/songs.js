@@ -64,7 +64,7 @@ function mostrarCancion(data, contenedor, idiomaElegido = null) {
     addMusic(idCancion, nombreCancion, nombreArtista, idiomaElegido || lenguaje, img);
     removeLoader();
 
-    const aSeeSong = contenedor.querySelector('.music:last-child .music-content button');
+    const aSeeSong = contenedor.querySelector('.music:last-child .music-content #seeSong');
     aSeeSong.addEventListener('click', () => {
         const parametros = {
             nombreCancion,
@@ -201,9 +201,29 @@ async function buscarPorCancion(nombreCancion) {
                 const nombreArtista = track.data.artists.items[0].profile.name;
                 const img = track.data.albumOfTrack.coverArt.sources[0].url;
 
-                const letraData = await fetchLetra(idCancion);
-                removeLoader();
-                mostrarCancion({ idCancion, nombreCancion, nombreArtista, letra: letraData.lyrics.lines.map(line => line.words).join('<br>'), lenguaje: letraData.lyrics.language, img }, contenedor);
+                try {
+                    const letraData = await fetchLetra(idCancion);
+                    if (!letraData || !letraData.lyrics || !letraData.lyrics.lines) {
+                        throw new Error("No se encontró la letra");
+                    }
+
+                    mostrarCancion({
+                        idCancion,
+                        nombreCancion,
+                        nombreArtista,
+                        letra: letraData.lyrics.lines.map(line => line.words).join('<br>'),
+                        lenguaje: letraData.lyrics.language,
+                        img
+                    }, contenedor);
+
+                } catch (error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "No se ha podido encontrar la letra de la canción."
+                    });
+                }
+
                 removeLoader();
             }
 
@@ -215,7 +235,6 @@ async function buscarPorCancion(nombreCancion) {
                 title: "Oops...",
                 text: "No se encontraron canciones para la consulta."
             });
-            removeLoader();
         }
     } catch (error) {
         console.error('Error en la búsqueda por canción:', error);
@@ -251,23 +270,30 @@ function addMusic(idCancion, nombreCancion, nombreArtista, idioma, img) {
 
     let divMusicContent = document.createElement("div");
     divMusicContent.setAttribute('class', 'music-content');
+
     let pTitle = document.createElement("p");
     pTitle.setAttribute('id', 'music-title');
     pTitle.textContent = nombreCancion;
-    let pArtirs = document.createElement("p");
-    pArtirs.setAttribute('id', 'music-artist');
-    pArtirs.textContent = nombreArtista + "🧑‍🎤";
+
+    let buttonArtirs = document.createElement("button");
+    buttonArtirs.setAttribute('id', 'music-artist');
+    buttonArtirs.setAttribute('class', 'button');
+    buttonArtirs.setAttribute('type', 'button');
+    buttonArtirs.textContent = nombreArtista;//+ "🧑‍🎤"
+    buttonArtirs.addEventListener("click", () => buscarArtista(buttonArtirs.textContent));
+
     let pLenguaje = document.createElement("p");
     pLenguaje.setAttribute('id', 'music-leanguaje');
     pLenguaje.textContent = idioma;
 
     let buttonSeeSong = document.createElement("button");
     buttonSeeSong.textContent = "See song🎵";
+    buttonSeeSong.setAttribute('id', 'seeSong');
     buttonSeeSong.setAttribute('class', 'button');
     buttonSeeSong.setAttribute('type', 'button');
 
     divMusicContent.appendChild(pTitle);
-    divMusicContent.appendChild(pArtirs);
+    divMusicContent.appendChild(buttonArtirs);
     divMusicContent.appendChild(pLenguaje);
     divMusicContent.appendChild(buttonSeeSong);
 
@@ -434,47 +460,52 @@ function addLetter(cancion) {
         card2.innerHTML = ""
 
         const lenguajeSeleccionado = select.value;
+        if (lenguajeSeleccionado != 0) {
+            const urlTraduccion = 'https://google-translator9.p.rapidapi.com/v2';
 
-        const urlTraduccion = 'https://google-translator9.p.rapidapi.com/v2';
+            const options = {
+                method: 'POST',
+                headers: {
+                    'x-rapidapi-key': RAPIDAPI_KEY,
+                    'x-rapidapi-host': 'google-translator9.p.rapidapi.com',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    q: LetraATraducir,
+                    source: idiomaLetra,
+                    target: lenguajeSeleccionado,
+                    format: 'text'
+                })
+            };
 
-        const options = {
-            method: 'POST',
-            headers: {
-                'x-rapidapi-key': RAPIDAPI_KEY,
-                'x-rapidapi-host': 'google-translator9.p.rapidapi.com',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                q: LetraATraducir,
-                source: idiomaLetra,
-                target: lenguajeSeleccionado,
-                format: 'text'
-            })
-        };
+            fetch(urlTraduccion, options)
+                .then(response => {
 
-        fetch(urlTraduccion, options)
-            .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta de la API: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(resultado => {
+                    const letra = document.createElement("div");
+                    letraTraducida = resultado["data"]["translations"][0]["translatedText"]
+                    letra.innerHTML = `<strong>Letra traducida :<br></strong><br>${letraTraducida}`;
+                    letra.classList.add("letra");
+                    card2.appendChild(letra);
 
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta de la API: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(resultado => {
-                const letra = document.createElement("div");
-                letraTraducida = resultado["data"]["translations"][0]["translatedText"]
-                letra.innerHTML = `<strong>Letra traducida :<br></strong><br>${letraTraducida}`;
-                letra.classList.add("letra");
-                card2.appendChild(letra);
+                    cards.appendChild(card2)
 
-                cards.appendChild(card2)
-
-            })
-            .catch(error => {
-                console.error('Error al traducir:', error);
+                })
+                .catch(error => {
+                    console.error('Error al traducir:', error);
+                });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Idioma no válido"
             });
-
-
+        }
     });
     contenedor.appendChild(select)
     contenedor.appendChild(boton)
@@ -638,24 +669,68 @@ function mostrarNotificacion(mensaje) {
     };
 }
 
-//Ver mapa
-navigator.geolocation.getCurrentPosition(
-    function map(position) {
-        var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 15);
+async function buscarArtista(artista) {
+    try {
+        const response = await fetch(`https://spotify23.p.rapidapi.com/search?q=${artista}&type=artist&limit=5`, {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Host': 'spotify23.p.rapidapi.com',
+                'X-RapidAPI-Key': 'ff51a3b669msh24bec5edc06d06ap1dab0ejsnddf24f4fd9ad',
+                'Content-Type': 'application/json',
+            }
+        });
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
+        const data = await response.json();
+        const artistaData = data.artists.items[0].data.profile;
+        const avatarUrl = data.artists.items[0].data.visuals.avatarImage.sources[2].url;
+        const canciones = data.albums.items.map(album => album.data.name);
 
-        L.control.scale().addTo(map);
-        L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
-    },
-    function error(error) {
-        console.error('Error al obtener la ubicación: ', error);
-    },
-    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-);
+        contenedor.innerHTML = "";
+
+        let cards = document.createElement("div");
+        cards.classList.add("cards-container");
+
+        let card = document.createElement("div");
+        card.classList.add("card");
+
+        let titulo = document.createElement("h2");
+        titulo.textContent = `Canciones recomendadas por Spotify de ${artistaData.name}`;
+        titulo.classList.add("titulo");
+
+        let listaCanciones = document.createElement("ul");
+        listaCanciones.classList.add("lista-canciones");
+        canciones.forEach(cancion => {
+            let li = document.createElement("li");
+            li.textContent = cancion;
+            listaCanciones.appendChild(li);
+        });
+
+        let img = document.createElement("img");
+        img.setAttribute("src", avatarUrl);
+        img.classList.add("artista-img");
+
+        let imgTitulo = document.createElement("h3");
+        imgTitulo.textContent = `Foto de ${artistaData.name}`;
+
+        const goBack = document.createElement("a");
+        goBack.textContent = "Go back";
+        goBack.setAttribute("class", "button");
+        goBack.addEventListener("click", function () {
+            contenedor.innerHTML = "";
+        });
+
+        card.appendChild(titulo);
+        card.appendChild(listaCanciones);
+        card.appendChild(imgTitulo);
+        card.appendChild(img);
+        cards.appendChild(card);
+
+        contenedor.appendChild(cards);
+        contenedor.appendChild(goBack);
+    } catch (error) {
+        console.error("Error al obtener datos del artista:", error);
+    }
+}
 
 // Event listener para el botón de ver favoritos
 document.querySelector('.user-container').addEventListener("click", () => getFavourites(idUsuario));
@@ -670,14 +745,38 @@ document.getElementById('searchButton').addEventListener('click', () => {
 
 document.addEventListener("DOMContentLoaded", function () {
     if (Notification.permission === "granted") {
+        console.log("Permiso de notificación ya concedido.");
     } else if (Notification.permission !== "denied") {
         Notification.requestPermission(function (permiso) {
             if (permiso === "granted") {
+                console.log("Permiso de notificación concedido.");
+
+            } else {
+                console.warn("Permiso de notificación denegado.");
             }
         });
     }
+
     if ("geolocation" in navigator) {
         console.log("La API de geolocalización está disponible.");
+        //Ver mapa
+        navigator.geolocation.getCurrentPosition(
+            function map(position) {
+                var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 15);
+
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);
+
+                L.control.scale().addTo(map);
+                L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+            },
+            function error(error) {
+                console.error('Error al obtener la ubicación: ', error);
+            },
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        );
     } else {
         console.error("La API de geolocalización no es compatible con este navegador.");
     }
