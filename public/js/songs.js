@@ -1,5 +1,5 @@
 const url = 'https://spotify23.p.rapidapi.com/search/';
-const RAPIDAPI_KEY = 'b8419777e3msh4c7899aae5b8ba7p139a63jsnc725b93b49c5';
+const RAPIDAPI_KEY = 'ff51a3b669msh24bec5edc06d06ap1dab0ejsnddf24f4fd9ad';
 const delayTime = 1;
 const limit = 3;
 const contenedor = document.getElementById('resultados');
@@ -206,7 +206,7 @@ async function buscarPorCancion(nombreCancion) {
                 mostrarCancion({ idCancion, nombreCancion, nombreArtista, letra: letraData.lyrics.lines.map(line => line.words).join('<br>'), lenguaje: letraData.lyrics.language, img }, contenedor);
                 removeLoader();
             }
-            addFav();
+
             removeLoader();
         } else {
             removeLoader();
@@ -221,6 +221,7 @@ async function buscarPorCancion(nombreCancion) {
         console.error('Error en la búsqueda por canción:', error);
         removeLoader();
     }
+    addFav();
 }
 
 /**
@@ -492,10 +493,10 @@ function removeLoader() {
 }
 
 function addFav() {
-    // Obtener todos los elementos con la clase "material-symbols-outlined"
+    // // Obtener todos los elementos con la clase "material-symbols-outlined"
     let favs = document.getElementsByClassName("material-symbols-outlined");
 
-    // Iteramos usando un bucle for para recorrer solo los índices numéricos
+    // // Iteramos usando un bucle for para recorrer solo los índices numéricos
     for (let i = 0; i < favs.length; i++) {
         favs[i].addEventListener("click", favourite);
     }
@@ -540,11 +541,13 @@ function addFav() {
             });
     }
 }
+
 /**
  * Medianmte fetch atacamos a nuestro endpoint, obtenemos los id de las canciones guardadas y llamamos a mostrarCancionFavorita para imprimirlas
  * @param {*} idUser - el id del usuario actual sacado mediante el split a la cookie
  */
 async function getFavourites(idUser) {
+    addFav();
     try {
         const response = await fetch("/ver/favs", {
             method: "POST",
@@ -594,7 +597,7 @@ async function mostrarCancionFavorita(idCancion, contenedor) {
         const letra = letraData.lyrics.lines.map(line => line.words).join('<br>');
 
         mostrarCancion({ idCancion, nombreCancion, nombreArtista, letra, lenguaje, img }, contenedor);
-
+        addFav();
     } catch (error) {
         console.error('Error al obtener la información de la canción:', error);
     }
