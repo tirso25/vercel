@@ -523,6 +523,7 @@ function addFav() {
                             title: "Oops...",
                             text: mensaje['mensaje']
                         });
+                        mostrarNotificacion(mensaje['mensaje']);
                         throw new Error(mensaje['mensaje']);
                     });
                 }
@@ -535,6 +536,10 @@ function addFav() {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                mostrarNotificacion(mensaje['mensaje']);
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 1700);
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -547,7 +552,6 @@ function addFav() {
  * @param {*} idUser - el id del usuario actual sacado mediante el split a la cookie
  */
 async function getFavourites(idUser) {
-    addFav();
     try {
         const response = await fetch("/ver/favs", {
             method: "POST",
@@ -603,6 +607,58 @@ async function mostrarCancionFavorita(idCancion, contenedor) {
     }
 }
 
+/**
+ * Función para mostrar la notificación
+ * @param {*} mensaje - Dependiendo de la acción muestra un mensaje u otro
+ */
+function mostrarNotificacion(mensaje) {
+    var opciones = {
+        body: mensaje,
+        icon: "https://via.placeholder.com/100",
+        tag: "notificacion-demo",
+        requireInteraction: true
+    };
+
+    var notificacion = new Notification("¡Notificación Activa!", opciones);
+
+    notificacion.onclick = function () {
+        window.open("https://www.google.com");
+    };
+
+    notificacion.onclose = function () {
+        console.log("Notificación cerrada.");
+    };
+
+    notificacion.onshow = function () {
+        console.log("Notificación mostrada.");
+    };
+
+    notificacion.onerror = function () {
+        console.log("Error al mostrar la notificación.");
+    };
+}
+
+//Ver mapa
+navigator.geolocation.getCurrentPosition(
+    function map(position) {
+        var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 15);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        L.control.scale().addTo(map);
+        L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+    },
+    function error(error) {
+        console.error('Error al obtener la ubicación: ', error);
+    },
+    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+);
+
+
+
 // Event listener para el botón de ver favoritos
 document.querySelector('.user-container').addEventListener("click", () => getFavourites(idUsuario));
 
@@ -612,4 +668,19 @@ document.getElementById('searchButton').addEventListener('click', () => {
     const nombreCancion = document.getElementById('nombreCancion').value.trim();
     addLoader();
     !nombreCancion ? buscarPorIdioma(idiomaElegido) : buscarPorCancion(nombreCancion);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    if (Notification.permission === "granted") {
+    } else if (Notification.permission !== "denied") {
+        Notification.requestPermission(function (permiso) {
+            if (permiso === "granted") {
+            }
+        });
+    }
+    if ("geolocation" in navigator) {
+        console.log("La API de geolocalización está disponible.");
+    } else {
+        console.error("La API de geolocalización no es compatible con este navegador.");
+    }
 });

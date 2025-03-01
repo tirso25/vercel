@@ -62,7 +62,7 @@ html {
     border: 2px solid #ccc;
     border-radius: 5px;
     height: 50px;
-    width: 50px; 
+    width: 50px;
     cursor: pointer;
     font-size: 24px;
     color: #fff;
@@ -80,7 +80,7 @@ html {
 
 input {
     width: 160px;
-    height: 26px; 
+    height: 26px;
     padding: 10px;
     border: 2px solid #ccc;
     border-radius: 5px;
@@ -130,7 +130,7 @@ input:hover {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 39%; 
+    width: 39%;
     height: 2px;
     background-color: #ffffff;
 }
@@ -237,7 +237,8 @@ a.button:hover {
         margin-top: 10px;
     }
 
-    .select-container, input {
+    .select-container,
+    input {
         width: 120px;
     }
 
@@ -247,7 +248,8 @@ a.button:hover {
         font-size: 25px;
     }
 
-    .smooth-select, input {
+    .smooth-select,
+    input {
         font-size: 14px;
     }
 }
@@ -257,7 +259,8 @@ a.button:hover {
         padding-top: 180px;
     }
 
-    .select-container, input {
+    .select-container,
+    input {
         width: 100px;
     }
 
@@ -277,11 +280,6 @@ a.button:hover {
     }
 }
 
-#resultados {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-}
 .music {
     display: flex;
     align-items: center;
@@ -293,7 +291,7 @@ a.button:hover {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
     position: relative;
-    margin: 10px; 
+    margin: 10px;
 }
 
 .music:hover {
@@ -388,7 +386,8 @@ a.button:hover {
 
 /* Contenedor del loader */
 .loader-container {
-    position: fixed; /* Fijo en la pantalla */
+    position: fixed;
+    /* Fijo en la pantalla */
     top: 0;
     left: 0;
     width: 100%;
@@ -396,8 +395,10 @@ a.button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(30, 41, 59, 0.8); /* Fondo semitransparente */
-    z-index: 1000; /* Asegura que esté por encima de todo */
+    background-color: rgba(30, 41, 59, 0.8);
+    /* Fondo semitransparente */
+    z-index: 1000;
+    /* Asegura que esté por encima de todo */
 }
 
 /* Estilos del loader */
@@ -565,6 +566,7 @@ a.button:hover {
 
 /* Animaciones */
 @keyframes hamster {
+
     from,
     to {
         transform: rotate(4deg) translate(-0.8em, 1.85em);
@@ -576,6 +578,7 @@ a.button:hover {
 }
 
 @keyframes hamsterHead {
+
     from,
     25%,
     50%,
@@ -593,6 +596,7 @@ a.button:hover {
 }
 
 @keyframes hamsterEye {
+
     from,
     90%,
     to {
@@ -605,6 +609,7 @@ a.button:hover {
 }
 
 @keyframes hamsterEar {
+
     from,
     25%,
     50%,
@@ -622,6 +627,7 @@ a.button:hover {
 }
 
 @keyframes hamsterBody {
+
     from,
     25%,
     50%,
@@ -639,6 +645,7 @@ a.button:hover {
 }
 
 @keyframes hamsterFRLimb {
+
     from,
     25%,
     50%,
@@ -656,6 +663,7 @@ a.button:hover {
 }
 
 @keyframes hamsterFLLimb {
+
     from,
     25%,
     50%,
@@ -673,6 +681,7 @@ a.button:hover {
 }
 
 @keyframes hamsterBRLimb {
+
     from,
     25%,
     50%,
@@ -690,6 +699,7 @@ a.button:hover {
 }
 
 @keyframes hamsterBLLimb {
+
     from,
     25%,
     50%,
@@ -707,6 +717,7 @@ a.button:hover {
 }
 
 @keyframes hamsterTail {
+
     from,
     25%,
     50%,
@@ -773,4 +784,26 @@ button.button {
     color: #cbd5e0;
     line-height: 1.6;
     white-space: pre-line;
+}
+
+#map {
+    width: 700px;
+    height: 600px;
+    min-height: 400px;
+    box-shadow: 5px 5px 5px #888;
+    margin-left: 20px;
+}
+
+#contenido {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#resultados {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    width: 100%;
 }

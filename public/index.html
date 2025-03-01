@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/egg.js/1.0/egg.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
         if (!document.cookie) {
             window.location.href = "/login";
@@ -22,7 +26,7 @@
 </head>
 
 <body>
-    <div class="cursor cursor-click"></div>
+    <div class="cursor cursor-click"></div>sd
     <div id="filters">
         <div class="filter-group">
             <div class="select-container">
@@ -51,8 +55,10 @@
             <a id="logoff" href="#" class="button">Log Off</a>
         </div>
     </div>
-    <div id="resultados"></div>
-    <div id="mapa"></div>
+    <div id="contenido">
+        <div id="resultados"></div>
+        <div id="map"></div>
+    </div>
 </body>
 <script src="./js/index.js"></script>
 <script src="./js/songs.js"></script>
