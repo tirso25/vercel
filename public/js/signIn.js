@@ -1,4 +1,3 @@
-
 const inputs = document.getElementsByTagName("input");
 const seePw = document.getElementsByClassName("material-symbols-outlined");
 
