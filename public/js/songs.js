@@ -1,5 +1,5 @@
 const url = 'https://spotify23.p.rapidapi.com/search/';
-const RAPIDAPI_KEY = 'ff51a3b669msh24bec5edc06d06ap1dab0ejsnddf24f4fd9ad';
+const RAPIDAPI_KEY = '3486e94ed2msh341e1569c47f816p1e4672jsn3a98930986d6';
 const delayTime = 1;
 const limit = 3;
 const contenedor = document.getElementById('resultados');
@@ -767,25 +767,119 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if ("geolocation" in navigator) {
         console.log("La API de geolocalización está disponible.");
-        //Ver mapa
-        navigator.geolocation.getCurrentPosition(
-            function map(position) {
-                var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 15);
-
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                }).addTo(map);
-
-                L.control.scale().addTo(map);
-                L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
-            },
-            function error(error) {
-                console.error('Error al obtener la ubicación: ', error);
-            },
-            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-        );
     } else {
         console.error("La API de geolocalización no es compatible con este navegador.");
     }
+    Notification.requestPermission(function (permission) {
+        console.log("El estado actual del permiso es", permission);
+    });
+
+    if ("geolocation" in navigator) {
+        console.log("La API de geolocalización está disponible.");
+    } else {
+        console.error("La API de geolocalización no es compatible con este navegador.");
+    }
+    Notification.requestPermission(function (permission) {
+        console.log("El estado actual del permiso es", permission);
+    });
+
+    // Llamada para recoger la ubicacion actual
+    navigator.geolocation.getCurrentPosition(//successCallback, errorCallback, options)
+        //Si es correcto
+        function (position) {
+            let notificacion = new Notification("Exito en conseguir tu ubicación", {
+                body: "Ubicacion Obtenida",
+                tag: "Ubi",
+                requireInteraction: true,
+
+            });
+            console.log("Latitud:", position.coords.latitude);
+            console.log("Longitud:", position.coords.longitude);
+            /**
+             * A partir de aqui usamos Leaflet como servicio de mapas Open Source
+             */
+            var map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 13);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            const marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
+                .bindPopup('Esta es tu ubicación')
+                .openPopup();
+            marker.on('click', function () {
+                mostrarNotificacion('TE VEO');
+            });
+            //GENERAMOS 7 CONCIERTOS
+            const MAX_CONCERTS = 5;
+            for (let i = 0; i < MAX_CONCERTS; i++) {
+                //GENERAR UN CORCIERTO AL AZAR
+                const numeroAleatorio = Math.floor(Math.random() * 90) + 10;
+                fetch(`https://concerts-artists-events-tracker.p.rapidapi.com/festival/infos?festival_id=1573${numeroAleatorio}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-RapidAPI-Host': 'concerts-artists-events-tracker.p.rapidapi.com',
+                        'X-RapidAPI-Key': RAPIDAPI_KEY,
+                        'Content-Type': 'application/json',
+                    }
+                }).then(response => response.json()).
+                    then(data => {
+                        console.log(data);
+                        const marker = L.marker([data.data.latitude, data.data.longitude]).addTo(map).bindPopup(data.data.name).openPopup();
+                        marker.on('click', function () {
+                            mostrarNotificacion(`Concierto: ${data.data.name}`);
+                        });
+                    })
+            }
+            const conciertos = {
+                1: {
+                    latitude: 40.3517,
+                    longitude: -3.6957,
+                    nombre: 'RBF (La Caja Magica)'
+                },
+                2: {
+                    latitude: 40.4238,
+                    longitude: -3.6683,
+                    nombre: 'Luis Fonsi (Wizink Center)'
+                },
+                3: {
+                    latitude: 40.4531,
+                    longitude: -3.6884,
+                    nombre: 'Aitana (Santiago Bernabeu)'
+                },
+                4: {
+                    latitude: 40.4362,
+                    longitude: -3.5995,
+                    nombre: 'Feid (Wanda Metropolitano)'
+                }
+            }
+            console.log("conciertos Madrid")
+            for (let concierto in conciertos) {
+                L.marker([conciertos[concierto].latitude, conciertos[concierto].longitude]).addTo(map).bindPopup(conciertos[concierto].nombre).openPopup();
+            }
+        },
+        // Si da error
+        function (error) {
+            console.error("Error al obtener la ubicación:", error.message);
+            let notificacion = new Notification("Error en la ubicación", {
+                body: "Permiso Denegado",
+                tag: "Error",
+                requireInteraction: true,
+            });
+
+            if (error.code === 1) {
+                console.log("Permiso denegado.");
+
+            } else if (error.code === 2) {
+                console.log("No se pudo determinar la ubicación/ubicacion no disponible.");
+            } else if (error.code === 3) {
+                console.log("Tiempo de espera agotado.");
+            }
+        },
+        // Otras opciones
+        {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        }
+    );
 });
